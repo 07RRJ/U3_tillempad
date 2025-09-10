@@ -3,9 +3,10 @@ from os import system
 import locale
 from msvcrt import getwch
 
+the_features = [1, 2]
+
 def format_currency(value):
     return locale.currency(value,grouping=True)
-
 
 def load_data(filename): 
     products = []
@@ -38,7 +39,6 @@ def list_products(products):
         print(f"{idx}: {item["name"]}:")
 
 while True:
-    system("cls")
     try:
         if feature == 1:
             products.pop(idx)
@@ -50,8 +50,15 @@ while True:
     except:
         pass
 
-    list_products(products)
-
-    idx = int(input(f"choose: ")) - 1
-
-    feature = int(input("1 remove / 2 view: "))
+    system("cls")
+    while True:
+        try:
+            list_products(products)
+            idx = int(input(f"choose: ")) - 1
+            print("1 remove / 2 view: ")
+            feature = int(getwch())
+            break
+        except:
+            system("cls")
+            print("folow the instructions")
+    system("cls")
