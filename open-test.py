@@ -26,22 +26,23 @@ def load_data(filename):
                     "quantity": quantity
                 }
             )
-   
-
-
-#TODO: hur gör man så funktionen load_data returnerar products istället?
-#TODO: gör så man kan se en numrerad lista som börjar på 1.
-#TODO: skriv en funktion som returnerar en specifik produkt med hjälp av id
-#TODO: skriv en funktion som tar bort en specifik produkt med hjälp av id
-
+    return products
 
 locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')  
 
-load_data('db_products.csv')
+products = load_data('db_products.csv')
 
-os.system('cls')
-    
+while True:
+    os.system("cls")
+    try:
+        if feture == 1:
+            print(products[choose])
+        elif feture == 2:
+            products.pop(choose)
+    except:
+        pass
+    for idx, item in enumerate(products, 1):
+        print(f"{idx}: {item["name"]}:")
+    choose = int(input(f"choose 1 - {len(products)}: ")) - 1
 
-
-
-
+    feture = int(input("1 remove, 2 view: "))
