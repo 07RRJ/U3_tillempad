@@ -1,6 +1,7 @@
 import csv
-import os
+from os import system
 import locale
+from msvcrt import getwch
 
 def format_currency(value):
     return locale.currency(value,grouping=True)
@@ -32,17 +33,25 @@ locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')
 
 products = load_data('db_products.csv')
 
-while True:
-    os.system("cls")
-    try:
-        if feture == 1:
-            print(products[choose])
-        elif feture == 2:
-            products.pop(choose)
-    except:
-        pass
+def list_products(products):
     for idx, item in enumerate(products, 1):
         print(f"{idx}: {item["name"]}:")
-    choose = int(input(f"choose 1 - {len(products)}: ")) - 1
 
-    feture = int(input("1 remove, 2 view: "))
+while True:
+    system("cls")
+    try:
+        if feature == 1:
+            products.pop(idx)
+
+        elif feature == 2:
+            print(f"{products[idx]}\ntype to continue")
+            temp = getwch()
+            system("cls")
+    except:
+        pass
+
+    list_products(products)
+
+    idx = int(input(f"choose: ")) - 1
+
+    feature = int(input("1 remove / 2 view: "))
