@@ -45,40 +45,80 @@ def list_products(products):
         total_price[1] += item["quantity"]
     print(f"total price: {int(total_price[0])}\ntotal quantity {total_price[1]}\navrage price: {int(total_price[0] / total_price[1])}")
 
+def name_product(idx):
+    system("cls")
+    print(f'id: {products[idx]["id"]}\nname: "{products[idx]["name"]}"\nprice: {products[idx]["price"]}\ndescriotion: {products[idx]["desc"]}\nquantity: {products[idx]["quantity"]}\ntype to continue')
+    sleep(1)
+    temp = getwch()
+    system("cls")
+
 def add():
     system("cls")
     print("product:")
-    name = input("name:")
-    desc = input("descritpion:")
+    name = input("name: ")
+    desc = input("description: ")
     while True:
         try:
-            price = float(input("price:"))
+            price = float(input("price: "))
             break
         except:
             pass
     while True:
         try:
-            quantity = int(input("descritpion:"))
+            quantity = int(input("quantity: "))
             break
         except:
             pass
+    used_ids = {item["id"] for item in products} 
     temp_id = 0
     while True:
-        if temp_id not in products["id"]:
-            id = temp_id
+        if temp_id in used_ids:
+            temp_id += 1
+        else:
+            new_id = temp_id
             break
-    return id, name, desc, price, quantity
+    return new_id, name, desc, price, quantity
+
+def change(idx):
+    system("cls")
+    print(f'current: name: "{products[idx]["name"]}" price: {products[idx]["price"]} descriotion: {products[idx]["desc"]} quantity: {products[idx]["quantity"]}')
+    print("leave empty to skipp")
+
+    name = input("name: ")
+    
+    while True:
+        try:
+            price = float(input("price: "))
+            break
+        except:
+            pass
+
+    desc = input("description: ")
+
+    while True:
+        try:
+            quantity = int(input("quantity: "))
+            break
+        except:
+            pass
+
+    if not name:
+        name = products[idx]["name"]
+    if not desc:
+        desc = products[idx]["desc"]
+    if not price and price != 0:
+        price = products[idx]["price"]
+    if not quantity and quantity != 0:
+        quantity = products[idx]["quantity"]
+    
+    return name, price, desc, quantity
 
 while True:
     if feature == 1:
         products.pop(idx)
 
     elif feature == 2:
-        system("cls")
-        print(f'id: {products[idx]["id"]}\nname: "{products[idx]["name"]}"\nprice: {products[idx]["price"]}\ndescriotion: {products[idx]["desc"]}\nquantity: {products[idx]["quantity"]}\ntype to continue')
-        sleep(1)
-        temp = getwch()
-        system("cls")
+        name_product(idx)
 
     elif feature == 3:
         id, name, desc, price, quantity = add()
@@ -91,6 +131,13 @@ while True:
                 "quantity": quantity
             }
         )
+
+    elif feature == 4:
+        name, price, desc, quantity = change(idx)
+        products[idx]["name"] = name
+        products[idx]["price"] = price
+        products[idx]["desc"] = desc
+        products[idx]["quantity"] = quantity
 
     while True:
         list_products(products)
